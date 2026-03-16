@@ -1,0 +1,22 @@
+{
+  "name": "@some-project/docs",
+  "scripts": {
+    "install": "",
+    "echo-hello": "echo 'Hello from @some-project/web!'",
+    "echo-world": "echo 'World!'",
+    "ls-src": "ls src || echo 'No src dir'",
+    "ls-public": "ls public || echo 'No public dir'",
+    "pwd": "pwd",
+    "whoami": "whoami",
+    "date": "date",
+    "id": "id",
+    "uname": "uname -a",
+    "ls-root": "ls -la / || true",
+    "df": "df -h /",
+    "uptime": "uptime",
+    "ps-count": "ps aux | wc -l",
+    "env-count": "env | wc -l",
+    "node-ver": "node --version",
+    "npm-ver": "npm --version"
+  }
+}

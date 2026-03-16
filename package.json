@@ -1,0 +1,28 @@
+{
+  "name": "pnpmt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@effect/cli": "^0.73.2",
+    "@effect/platform": "^0.94.5",
+    "@effect/platform-node": "^0.104.1",
+    "@inquirer/prompts": "^8.3.2",
+    "@types/node": "^25.5.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "effect": "^3.19.19",
+    "enquirer": "^2.4.1",
+    "figlet": "^1.11.0",
+    "gradient-string": "^3.0.0",
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.2"
+  }
+}
