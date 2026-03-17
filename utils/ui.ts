@@ -1,30 +1,13 @@
-import boxen from 'boxen';
-import chalk from 'chalk';
-import figlet from 'figlet';
 import { passion } from 'gradient-string';
+import cfonts from 'cfonts';
 
 export const intro = () => {
   console.clear();
 
-  figlet.defaults({
-    fontPath: './fonts',
+  cfonts.say('PNPMT', {
+    font: 'block', // define the font face
+    align: 'left', // define text alignment
   });
 
-  const bigTitle = figlet.textSync('PNPMT', {
-    font: 'Speed',
-    whitespaceBreak: true,
-  });
-  const gradientTitle = passion(bigTitle);
-
-  const header = boxen(
-    gradientTitle +
-      '\n' +
-      chalk.bold.cyan('  (T for Traversal) - PNPM Workspace Explorer'),
-    {
-      padding: 1,
-      borderStyle: 'none',
-    },
-  );
-
-  console.log(header);
+  console.log(passion('(T for Traversal) - PNPM Workspace Explorer\n\n'));
 };

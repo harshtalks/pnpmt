@@ -20,11 +20,9 @@
     "@effect/platform-node": "^0.104.1",
     "@inquirer/prompts": "^8.3.2",
     "@types/node": "^25.5.0",
-    "boxen": "^8.0.1",
     "chalk": "^5.6.2",
     "concurrently": "^9.2.1",
     "effect": "^3.19.19",
-    "figlet": "^1.11.0",
     "gradient-string": "^3.0.0",
     "prettier": "^3.8.1",
     "tsup": "^8.5.1",
@@ -58,5 +56,8 @@
     "patchedDependencies": {
       "figlet": "patches/figlet.patch"
     }
+  },
+  "dependencies": {
+    "cfonts": "3.3.1"
   }
 }

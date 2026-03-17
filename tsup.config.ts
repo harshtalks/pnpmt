@@ -3,5 +3,5 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entryPoints: ['./index.ts'],
   clean: true,
-  treeshake: 'smallest',
+  publicDir: true,
 });
