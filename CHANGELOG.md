@@ -1,5 +1,11 @@
 # pnpmt
 
+## 0.4.0
+
+### Minor Changes
+
+- c8a60d8: optional summary
+
 ## 0.3.0
 
 ### Minor Changes
