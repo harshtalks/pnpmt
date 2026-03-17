@@ -45,10 +45,27 @@ export type PackageJsonSchema = Schema.Schema.Type<typeof packageJsonSchema>;
 export const selectedCommandSchema = Schema.Struct({
   pkgName: Schema.NonEmptyString,
   scriptName: Schema.NonEmptyString,
-  command: Schema.NonEmptyString,
+  command: Schema.String,
   workingDirectory: Schema.String,
 });
+
+export const selectedCommandsSchema = Schema.Array(selectedCommandSchema);
+
+export const groupedCmdSchema = Schema.Struct({
+  name: Schema.NonEmptyString,
+  entries: Schema.Array(selectedCommandSchema),
+});
+
+export const groupedCmdsSchema = Schema.Array(groupedCmdSchema);
 
 export type SelectedCommandSchema = Schema.Schema.Type<
   typeof selectedCommandSchema
 >;
+
+export type SelectedCommandsSchema = Schema.Schema.Type<
+  typeof selectedCommandsSchema
+>;
+
+export type GroupedCmdSchema = Schema.Schema.Type<typeof groupedCmdSchema>;
+
+export type GroupedCmdsSchema = Schema.Schema.Type<typeof groupedCmdsSchema>;

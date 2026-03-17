@@ -18,6 +18,7 @@
     "@types/node": "^25.5.0",
     "boxen": "^8.0.1",
     "chalk": "^5.6.2",
+    "concurrently": "^9.2.1",
     "effect": "^3.19.19",
     "enquirer": "^2.4.1",
     "figlet": "^1.11.0",

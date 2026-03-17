@@ -2,13 +2,14 @@
 import { Command } from "@effect/cli";
 import { NodeContext, NodeRuntime } from "@effect/platform-node";
 import { Effect } from "effect";
-import { listCommand } from "./list";
+import { listCommand } from "./commands/list";
+import { groupCommand } from "./commands/group";
 
 const command = Command.make("pnpmt").pipe(
   Command.withDescription(
     "A CLI application for running commands in nested packages directlyn from the root - works for pnpm workspaces.",
   ),
-  Command.withSubcommands([listCommand]),
+  Command.withSubcommands([listCommand, groupCommand]),
 );
 
 // Set up the CLI application
@@ -22,4 +23,4 @@ const cli = Command.run(command, {
 });
 
 // Prepare and run the CLI application
-cli(process.argv).pipe(NodeRuntime.runMain);
+cli(process.argv).pipe(Effect.provide(NodeContext.layer), NodeRuntime.runMain);
