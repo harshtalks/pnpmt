@@ -1,12 +1,12 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
-import { textSync } from 'figlet';
+import figlet from 'figlet';
 import { passion } from 'gradient-string';
 
 export const intro = () => {
   console.clear();
 
-  const bigTitle = textSync('PNPMT', {
+  const bigTitle = figlet.textSync('PNPMT', {
     whitespaceBreak: true,
   });
   const gradientTitle = passion(bigTitle);
