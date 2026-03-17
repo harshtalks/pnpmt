@@ -347,3 +347,48 @@ export const selectItemsFromGroupCmds = (
       Effect.catchTag('UnknownException', () => Effect.void),
     );
   });
+
+export const selectAppsAndRunCommand = (
+  packages: Array<PackageJsonSchema>,
+  command: string,
+) =>
+  Effect.gen(function* () {
+    const selectedApps = yield* Effect.tryPromise(() =>
+      checkbox({
+        message: gradientTitle('Select a the apps to install in\n'),
+        choices: packages.map((pkg) => ({
+          name: spacer + chalk.cyan(pkg.name) + chalk.gray(command),
+          value: pkg,
+        })),
+      }),
+    );
+
+    const getColorForPkg = (pkgName: string) => {
+      const colors = ['blue', 'green', 'magenta', 'cyan', 'yellow'];
+      const hash = pkgName.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+      return colors[hash % colors.length];
+    };
+
+    if (!selectedApps.length) {
+      console.log(
+        chalk.red(
+          chalk.inverse(' ERROR ') +
+            chalk.red(' ✗') +
+            chalk.red(' No apps selected'),
+        ),
+      );
+      return;
+    }
+    const commands = selectedApps.map(
+      ({ workingDirectory, name: pkgName }) => ({
+        command,
+        cwd: workingDirectory,
+        name: pkgName,
+        prefixColor: getColorForPkg(pkgName) ?? 'grey',
+      }),
+    );
+
+    yield* Effect.tryPromise(() => concurrently(commands).result).pipe(
+      Effect.catchTag('UnknownException', () => Effect.void),
+    );
+  });
