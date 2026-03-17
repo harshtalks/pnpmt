@@ -1,13 +1,15 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
-import figlet from 'figlet';
-import { teen } from 'gradient-string';
+import { textSync } from 'figlet';
+import { passion } from 'gradient-string';
 
 export const intro = () => {
   console.clear();
 
-  const bigTitle = figlet.textSync('PNPMT', { font: 'Speed' });
-  const gradientTitle = teen(bigTitle);
+  const bigTitle = textSync('PNPMT', {
+    whitespaceBreak: true,
+  });
+  const gradientTitle = passion(bigTitle);
 
   const header = boxen(
     gradientTitle +
