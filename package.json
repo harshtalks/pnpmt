@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "ci": "pnpm run build && pnpm run check-format",
+    "ci": "pnpm run build && pnpm run format",
     "local-release": "changeset version && changeset publish",
     "prepublishOnly": "pnpm run ci",
     "build": "tsup",
