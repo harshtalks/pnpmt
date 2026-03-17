@@ -1,7 +1,7 @@
-import { Array, Effect, Option, pipe, Schema } from "effect";
-import { nodeLevelDependencies } from "../deps";
-import { fileNames } from "../constants";
-import yaml from "yaml";
+import { Array, Effect, Option, pipe, Schema } from 'effect';
+import { nodeLevelDependencies } from '../deps';
+import { fileNames } from '../constants';
+import yaml from 'yaml';
 import {
   GroupedCmdSchema,
   groupedCmdSchema,
@@ -13,7 +13,7 @@ import {
   SelectedCommandSchema,
   selectedCommandsSchema,
   yamlSchema,
-} from "./schema";
+} from './schema';
 import {
   CommandExecutionError,
   GroupedCommandNotFound,
@@ -21,13 +21,13 @@ import {
   NotAPnpmProjectError,
   NotAPnpmWorkspaceError,
   YamlParseError,
-} from "./error";
-import chalk from "chalk";
-import { select, Separator, checkbox } from "@inquirer/prompts";
-import { mind } from "gradient-string";
-import { Command } from "@effect/platform";
-import concurrently from "concurrently";
-import { log } from "effect/Console";
+} from './error';
+import chalk from 'chalk';
+import { select, Separator, checkbox } from '@inquirer/prompts';
+import { mind } from 'gradient-string';
+import { Command } from '@effect/platform';
+import concurrently from 'concurrently';
+import { log } from 'effect/Console';
 
 export const isPnpmWorkspace = Effect.gen(function* () {
   const { fs, path } = yield* nodeLevelDependencies;
@@ -78,7 +78,7 @@ export const getPackagesFromWorkspaceConfig = Effect.gen(function* () {
   );
 
   // add root too
-  return [""].concat(packages);
+  return [''].concat(packages);
 });
 
 export const getPackageApps = (packagePath: string) =>
@@ -87,7 +87,7 @@ export const getPackageApps = (packagePath: string) =>
     const packageJsonPath = path.join(process.cwd(), packagePath);
 
     return yield* fs.readDirectory(packageJsonPath).pipe(
-      Effect.catchTag("SystemError", () => Effect.succeed([])),
+      Effect.catchTag('SystemError', () => Effect.succeed([])),
       Effect.andThen(
         Array.map((appName) => path.join(process.cwd(), packagePath, appName)),
       ),
@@ -117,9 +117,9 @@ export const getScriptsFromPackageJson = (packagePath: string) =>
     return packageJsonContent;
   });
 
-const pkgIcon = "📦 ";
-const scriptIcon = "▶️ ";
-const spacer = "  ";
+const pkgIcon = '📦 ';
+const scriptIcon = '▶️ ';
+const spacer = '  ';
 
 const gradientTitle = (text: string) => mind.multiline(text);
 
@@ -127,9 +127,9 @@ export const selectAndRunScript = (scripts: Array<PackageJsonSchema>) =>
   Effect.gen(function* () {
     const pkg = yield* Effect.tryPromise(() =>
       select({
-        message: gradientTitle("Select a script to run"),
+        message: gradientTitle('Select a script to run'),
         choices: scripts.flatMap((pkg, index) => {
-          const pkgLabel = `${index === 0 ? "" : "\n"}${pkgIcon}  ${chalk.bold(pkg.name)}\n`;
+          const pkgLabel = `${index === 0 ? '' : '\n'}${pkgIcon}  ${chalk.bold(pkg.name)}\n`;
           const pkgSeparator = new Separator(chalk.magentaBright(pkgLabel));
 
           const scriptOptions =
@@ -139,9 +139,9 @@ export const selectAndRunScript = (scripts: Array<PackageJsonSchema>) =>
                   name:
                     spacer +
                     scriptIcon +
-                    " " +
+                    ' ' +
                     chalk.cyan(key) +
-                    chalk.dim("  ·  ") +
+                    chalk.dim('  ·  ') +
                     chalk.gray(value),
                   value: {
                     pkgName: pkg.name,
@@ -153,7 +153,7 @@ export const selectAndRunScript = (scripts: Array<PackageJsonSchema>) =>
               : [
                   {
                     name:
-                      spacer + chalk.dim("No scripts defined in this package"),
+                      spacer + chalk.dim('No scripts defined in this package'),
                     value: null,
                     disabled: true,
                   } as const,
@@ -170,9 +170,9 @@ export const selectAndRunScript = (scripts: Array<PackageJsonSchema>) =>
 export const runCommand = (cmd: SelectedCommandSchema) =>
   Effect.gen(function* () {
     const { scriptName, workingDirectory } = cmd;
-    yield* Command.make("pnpm", "run", scriptName).pipe(
+    yield* Command.make('pnpm', 'run', scriptName).pipe(
       Command.workingDirectory(workingDirectory),
-      Command.stdout("inherit"), // Stream stdout to process.stdout
+      Command.stdout('inherit'), // Stream stdout to process.stdout
       Command.exitCode, // Get the exit code
     );
   });
@@ -231,27 +231,27 @@ export const selectGroupedCmd = (
 
     return yield* Effect.tryPromise(() =>
       select({
-        message: gradientTitle("Select a grouped script to run\n"),
+        message: gradientTitle('Select a grouped script to run\n'),
         choices: groupedCmds.length
           ? [
               ...groupedCmds.map((groupedCmd) => ({
                 name:
                   spacer +
                   chalk.cyan(groupedCmd.name) +
-                  chalk.dim("  ·  ") +
+                  chalk.dim('  ·  ') +
                   chalk.gray(
                     groupedCmd.entries.length +
-                      ` script${groupedCmd.entries.length > 1 ? "s" : ""}`,
+                      ` script${groupedCmd.entries.length > 1 ? 's' : ''}`,
                   ),
                 value: groupedCmd,
               })),
-              new Separator("\n"),
+              new Separator('\n'),
             ]
           : [
               {
                 name:
                   spacer +
-                  chalk.dim("No grouped scripts defined in this package"),
+                  chalk.dim('No grouped scripts defined in this package'),
                 value: null,
                 disabled: true,
               } as const,
@@ -269,37 +269,37 @@ export const selectItemsFromGroupCmds = (groupedCmd: GroupedCmdSchema) =>
   Effect.gen(function* () {
     const selectedCommands = yield* Effect.tryPromise(() =>
       checkbox({
-        message: gradientTitle("Select a script to run\n"),
+        message: gradientTitle('Select a script to run\n'),
         choices: [
           ...groupedCmd.entries.map((entry) => ({
             name:
               spacer +
               scriptIcon +
-              " " +
+              ' ' +
               chalk.cyan(entry.scriptName) +
-              chalk.dim("  ·  ") +
+              chalk.dim('  ·  ') +
               chalk.gray(
                 entry.command + spacer + `(${chalk.dim(entry.pkgName)})`,
               ),
             value: entry,
           })),
-          new Separator("\n"),
+          new Separator('\n'),
         ],
       }),
     ).pipe(Effect.andThen(Schema.decodeUnknown(selectedCommandsSchema)));
 
     const getColorForPkg = (pkgName: string) => {
-      const colors = ["blue", "green", "magenta", "cyan", "yellow", "red"];
-      const hash = pkgName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+      const colors = ['blue', 'green', 'magenta', 'cyan', 'yellow', 'red'];
+      const hash = pkgName.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
       return colors[hash % colors.length];
     };
 
     if (!selectedCommands.length) {
       console.log(
         chalk.red(
-          chalk.inverse(" ERROR ") +
-            chalk.red(" ✗") +
-            chalk.red(" No scripts selected"),
+          chalk.inverse(' ERROR ') +
+            chalk.red(' ✗') +
+            chalk.red(' No scripts selected'),
         ),
       );
       return;
@@ -310,7 +310,7 @@ export const selectItemsFromGroupCmds = (groupedCmd: GroupedCmdSchema) =>
         command,
         cwd: workingDirectory,
         name: pkgName,
-        prefixColor: getColorForPkg(pkgName) ?? "grey",
+        prefixColor: getColorForPkg(pkgName) ?? 'grey',
       }),
     );
 

@@ -1,16 +1,19 @@
 {
   "name": "pnpmt",
   "version": "1.0.0",
-  "description": "",
+  "description": "command-line tool for running commands directly in nested packages from the root of a pnpm workspace. It helps streamline development across multi-package monorepos",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx index.ts"
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "ci": "pnpm run build && pnpm run check-format",
+    "local-release": "changeset version && changeset publish",
+    "prepublishOnly": "pnpm run ci",
+    "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.30.0",
     "@effect/cli": "^0.73.2",
     "@effect/platform": "^0.94.5",
     "@effect/platform-node": "^0.104.1",
@@ -20,10 +23,34 @@
     "chalk": "^5.6.2",
     "concurrently": "^9.2.1",
     "effect": "^3.19.19",
-    "enquirer": "^2.4.1",
     "figlet": "^1.11.0",
     "gradient-string": "^3.0.0",
-    "typescript": "^5.9.3",
+    "prettier": "^3.8.1",
+    "tsup": "^8.5.1",
     "yaml": "^2.8.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "author": {
+    "email": "harshpareek91@gmai.com",
+    "name": "Harsh Pareek",
+    "url": "https://hrshwrites.vercel.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshtalks/pnpmt.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/harshtalks/pnpmt",
+  "keywords": [
+    "pnpm",
+    "pnpm-workspace",
+    "parallel"
+  ],
+  "bin": {
+    "pnpmt": "./dist/index.js"
   }
 }

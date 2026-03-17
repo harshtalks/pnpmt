@@ -2,8 +2,8 @@
 
 PNPMT is a command-line tool for running commands directly in nested packages from the root of a pnpm workspace. It helps streamline development across multi-package monorepos.
 
-
 ## 🚀 Features
+
 - Execute scripts in nested workspace packages from the root.
 - List and group packages easily.
 - Supports shell completions.
@@ -14,6 +14,7 @@ PNPMT is a command-line tool for running commands directly in nested packages fr
 ```bash
 pnpm install -g pnpmt
 ```
+
 ## 🧭 Usage
 
 ```bash
@@ -21,6 +22,7 @@ $ pnpmt
 ```
 
 You will see:
+
 ```bash
 PNPMT v1.0.0
 
@@ -32,6 +34,7 @@ DESCRIPTION
 ```
 
 ## 🧩 Commands
+
 ```
 | Command | Description |
 | --- | --- |
@@ -40,6 +43,7 @@ DESCRIPTION
 ```
 
 ## Example
+
 ```bash
 pnpmt list
 pnpmt group build

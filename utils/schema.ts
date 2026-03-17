@@ -1,4 +1,4 @@
-import { Schema } from "effect";
+import { Schema } from 'effect';
 
 const NameFromRegexPackage = Schema.transform(
   Schema.NonEmptyString,
@@ -6,14 +6,14 @@ const NameFromRegexPackage = Schema.transform(
   {
     strict: true,
     encode: (input) => `${input}/*`,
-    decode: (input) => input.replace("/*", ""),
+    decode: (input) => input.replace('/*', ''),
   },
 );
 
 export const yamlSchema = Schema.Struct({
   packages: Schema.NonEmptyArray(NameFromRegexPackage).annotations({
     message: () => ({
-      message: "packages must be an array of strings",
+      message: 'packages must be an array of strings',
       override: true,
     }),
   }),
@@ -22,19 +22,19 @@ export const yamlSchema = Schema.Struct({
 export const packageJsonSchema = Schema.Struct({
   scripts: Schema.Object.annotations({
     message: () => ({
-      message: "scripts must be an object of strings",
+      message: 'scripts must be an object of strings',
       override: true,
     }),
   }),
   name: Schema.NonEmptyString.annotations({
     message: () => ({
-      message: "name must be a string",
+      message: 'name must be a string',
       override: true,
     }),
   }),
   workingDirectory: Schema.String.annotations({
     message: () => ({
-      message: "directory must be a string",
+      message: 'directory must be a string',
       override: true,
     }),
   }),
