@@ -12,7 +12,7 @@ PNPMT is a command-line tool for running commands directly in nested packages fr
 ## 📦 Installation
 
 ```bash
-pnpm install -g pnpmt
+pnpm install -g @harshtalks/pnpmt
 ```
 
 ## 🧭 Usage

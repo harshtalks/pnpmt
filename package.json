@@ -1,5 +1,5 @@
 {
-  "name": "pnpmt",
+  "name": "@harshtalks/pnpmt",
   "version": "0.0.1",
   "description": "command-line tool for running commands directly in nested packages from the root of a pnpm workspace. It helps streamline development across multi-package monorepos",
   "main": "index.js",
