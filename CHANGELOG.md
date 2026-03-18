@@ -1,5 +1,11 @@
 # pnpmt
 
+## 0.5.0
+
+### Minor Changes
+
+- 2caebb9: new add cmd
+
 ## 0.4.0
 
 ### Minor Changes
