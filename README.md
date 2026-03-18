@@ -40,6 +40,7 @@ DESCRIPTION
 | --- | --- |
 | `list` | List all packages in the pnpm workspace. |
 | `group [<scriptName> (optional)]` | Group packages by their dependencies. |
+| `add <packageName>` | Install a package on multiple apps concurrently. |
 ```
 
 ## Example
@@ -47,4 +48,5 @@ DESCRIPTION
 ```bash
 pnpmt list
 pnpmt group build
+pnpmt add typescript
 ```
