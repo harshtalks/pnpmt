@@ -5,12 +5,13 @@ import { NodeContext, NodeRuntime } from '@effect/platform-node';
 import { Effect } from 'effect';
 import { listCommand } from './commands/list';
 import { groupCommand } from './commands/group';
+import { addCommand } from './commands/add';
 
 const command = Command.make('pnpmt').pipe(
   Command.withDescription(
-    'A CLI application for running commands in nested packages directlyn from the root - works for pnpm workspaces.',
+    'A CLI application for running commands in nested packages directly from the root - works for pnpm workspaces.',
   ),
-  Command.withSubcommands([listCommand, groupCommand]),
+  Command.withSubcommands([listCommand, groupCommand, addCommand]),
 );
 
 // Set up the CLI application
