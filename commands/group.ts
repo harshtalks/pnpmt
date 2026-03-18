@@ -22,13 +22,21 @@ const text = Args.text({ name: 'scriptName' }).pipe(
 
 const allFlag = Options.boolean('all').pipe(
   Options.withAlias('a'),
+  Options.withDescription('Run all grouped scripts'),
   Options.withDefault(false),
+);
+
+const inputFlag = Options.text('input').pipe(
+  Options.repeated,
+  Options.withAlias('i'),
+  Options.withDescription('pass arguments to the script itself'),
+  Options.optional,
 );
 
 export const groupCommand = Command.make(
   'group',
-  { text, allFlag },
-  ({ text, allFlag }) =>
+  { text, allFlag, inputFlag },
+  ({ text, allFlag, inputFlag }) =>
     pipe(
       Effect.try(() => intro()),
       Effect.andThen(isPnpmProject),
@@ -41,13 +49,12 @@ export const groupCommand = Command.make(
         selectGroupedCmd(groupedScripts, text),
       ),
       Effect.andThen((groupedCmd) =>
-        selectItemsFromGroupCmds(groupedCmd, text, allFlag),
+        selectItemsFromGroupCmds(groupedCmd, text, allFlag, inputFlag),
       ),
       // Error handling
       Effect.catchTag('NotAPnpmProjectError', (err) => log(err.message)),
       Effect.catchTag('NotAPnpmWorkspaceError', (err) => log(err.message)),
       Effect.catchTag('GroupedCommandNotFound', (err) => log(err.message)),
-
       // File System
       Effect.provide(NodeFileSystem.layer),
       // path config

@@ -27,6 +27,7 @@ import { mind } from 'gradient-string';
 import { Command } from '@effect/platform';
 import concurrently from 'concurrently';
 import { error, log } from 'effect/Console';
+import { Options } from '@effect/cli/index';
 
 export const isPnpmWorkspace = Effect.gen(function* () {
   const { fs, path } = yield* nodeLevelDependencies;
@@ -180,13 +181,16 @@ export const selectAndRunScript = (scripts: Array<PackageJsonSchema>) =>
     return pkg;
   });
 
-export const runCommand = (cmd: SelectedCommandSchema) =>
+export const runCommand = (
+  cmd: SelectedCommandSchema,
+  inputArgs: Option.Option<string[]>,
+) =>
   Effect.gen(function* () {
     yield* Effect.tryPromise(
       () =>
         concurrently([
           {
-            command: `pnpm run ${cmd.scriptName}`,
+            command: `pnpm run ${cmd.scriptName} ${Option.getOrElse(inputArgs, () => ['']).join(' ')}`,
             cwd: cmd.workingDirectory,
             name: cmd.pkgName,
             prefixColor: 'green',
@@ -287,6 +291,7 @@ export const selectItemsFromGroupCmds = (
   groupedCmd: GroupedCmdSchema,
   arg: Option.Option<string>,
   allSelected: boolean,
+  inputFlag: Option.Option<string[]>,
 ) =>
   Effect.gen(function* () {
     const selectedCommands = yield* pipe(
@@ -336,7 +341,11 @@ export const selectItemsFromGroupCmds = (
 
     const commands = selectedCommands.map(
       ({ scriptName, workingDirectory, pkgName }) => ({
-        command: 'pnpm run ' + scriptName,
+        command:
+          'pnpm run ' +
+          scriptName +
+          ' ' +
+          Option.getOrElse(inputFlag, () => ['']).join(' '),
         cwd: workingDirectory,
         name: pkgName,
         prefixColor: getColorForPkg(pkgName) ?? 'grey',

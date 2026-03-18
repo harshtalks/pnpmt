@@ -13,11 +13,18 @@ import {
 import { NodeContext, NodeFileSystem } from '@effect/platform-node';
 import { Path } from '@effect/platform';
 import { log } from 'effect/Console';
-import { Command } from '@effect/cli';
+import { Args, Command, Options } from '@effect/cli';
 import { intro } from '../utils/ui';
 
+const inputFlag = Options.text('input').pipe(
+  Options.repeated,
+  Options.withAlias('i'),
+  Options.withDescription('pass arguments to the script itself'),
+  Options.optional,
+);
+
 export const listCommand = pipe(
-  Command.make('list', {}, () =>
+  Command.make('list', { inputFlag }, ({ inputFlag }) =>
     pipe(
       Effect.try(() => intro()),
       Effect.andThen(isPnpmProject),
@@ -26,7 +33,7 @@ export const listCommand = pipe(
       Effect.andThen(Effect.forEach(getScriptsFromPackageJson)),
       Effect.andThen(filterAppsWithPackageJson),
       Effect.andThen(selectAndRunScript),
-      Effect.andThen(runCommand),
+      Effect.andThen((script) => runCommand(script, inputFlag)),
       // Error handling
       Effect.catchTag('NotAPnpmProjectError', (err) => log(err.message)),
       Effect.catchTag('NotAPnpmWorkspaceError', (err) => log(err.message)),
