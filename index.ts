@@ -8,7 +8,7 @@ import { groupCommand } from './commands/group';
 
 const command = Command.make('pnpmt').pipe(
   Command.withDescription(
-    'A CLI application for running commands in nested packages directlyn from the root - works for pnpm workspaces.',
+    'A CLI application for running commands in nested packages directly from the root - works for pnpm workspaces.',
   ),
   Command.withSubcommands([listCommand, groupCommand]),
 );
